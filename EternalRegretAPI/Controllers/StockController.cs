@@ -1,34 +1,55 @@
-﻿using EternalRegret.MongoDB.Model;
-using EternalRegret.MongoDB.Service;
+﻿using EternalRegret.Cosmos.Context;
+using EternalRegret.Cosmos.Model;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 
 namespace EternalRegretAPI.Controllers
 {
     [Route("v1/[controller]")]
     public class StockController : ControllerBase
     {
-        private readonly IStockService _stockService;
+        private readonly StockContext _stockContext;
 
-        public StockController(IStockService stockService)
+        public StockController(StockContext stockService)
         {
-            _stockService = stockService;
+            _stockContext = stockService;
         }
 
-        [HttpGet("{code}/{date}")]
-        public string Get(string code, string date)
+        [HttpGet("meta")]
+        public string Get()
+        {
+
+            try
+            {
+                var list = _stockContext.Stocks
+                    .Where(s => true)
+                    .Select(s => new Stock
+                    {
+                        StockName = s.StockName,
+                        StockCode = s.StockCode,
+                    }).ToList();
+
+                return (list == null) ? null : JsonConvert.SerializeObject(list);
+            }
+            catch (Exception ex)
+            {
+                // Some logging here?
+                return null;
+            }
+        }
+
+        [HttpGet("{code}")]
+        public string Get(string code)
         {
 
             Stock stock = null;
             try
             {
-                var dateInfo = DateTime
-                    .ParseExact(date, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture)
-                    .ToUniversalTime();
-
-                stock = _stockService.Get(code);
-                stock.Prices.RemoveAll(p => p.PriceDate < dateInfo);
+                stock = _stockContext.Stocks
+                    .Where(s => s.StockCode == code)
+                    .FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -37,8 +58,7 @@ namespace EternalRegretAPI.Controllers
             }
 
 
-            return JsonConvert.SerializeObject(stock);
+            return (stock == null) ? null : JsonConvert.SerializeObject(stock);
         }
-
     }
 }

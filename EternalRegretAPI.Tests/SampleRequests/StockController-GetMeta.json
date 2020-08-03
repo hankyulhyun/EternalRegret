@@ -1,11 +1,11 @@
 {
   "resource": "/{proxy+}",
-  "path": "/v1/stock/000020",
+  "path": "/v1/stock/meta",
   "httpMethod": "GET",
   "headers": null,
   "queryStringParameters": null,
   "pathParameters": {
-    "proxy": "v1/stock/000020"
+    "proxy": "v1/stock/meta"
   },
   "stageVariables": null,
   "requestContext": {

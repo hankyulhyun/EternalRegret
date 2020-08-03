@@ -14,11 +14,24 @@ namespace EternalRegretAPI.Tests
     {
 
         [Fact]
-        public async Task TaskGet()
+        public async Task TestGetCodeTest()
         {
             var lambdaFunction = new LambdaEntryPoint();
 
             var requestStr = File.ReadAllText("./SampleRequests/StockController-Get.json");
+            var request = JsonConvert.DeserializeObject<APIGatewayProxyRequest>(requestStr);
+            var context = new TestLambdaContext();
+            var response = await lambdaFunction.FunctionHandlerAsync(request, context);
+
+            Assert.Equal(200, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task TestGetMetaDataTest()
+        {
+            var lambdaFunction = new LambdaEntryPoint();
+
+            var requestStr = File.ReadAllText("./SampleRequests/StockController-GetMeta.json");
             var request = JsonConvert.DeserializeObject<APIGatewayProxyRequest>(requestStr);
             var context = new TestLambdaContext();
             var response = await lambdaFunction.FunctionHandlerAsync(request, context);

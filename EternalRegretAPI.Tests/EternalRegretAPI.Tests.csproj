@@ -10,6 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="SampleRequests\StockController-Get.json" />
+    <None Remove="SampleRequests\StockController-GetMeta.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appsettings.json">
@@ -18,6 +19,7 @@
     <Content Include="SampleRequests\StockController-Get.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="SampleRequests\StockController-GetMeta.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />

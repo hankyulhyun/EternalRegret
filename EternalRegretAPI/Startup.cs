@@ -27,7 +27,11 @@ namespace EternalRegretAPI
                                     .AllowAnyMethod());
             });
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                });
 
             services.AddSingleton<StockContext>();
         }

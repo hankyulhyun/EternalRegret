@@ -4,6 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EternalRegret.Cosmos.Model
 {
+    public class StockMeta
+    {
+        public string StockName { get; set; }
+
+        public string StockCode { get; set; }
+    }
+
     public class Stock
     {
         [Key]

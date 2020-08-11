@@ -1,13 +1,14 @@
 ﻿using EternalRegret.Cosmos.Context;
 using EternalRegret.Cosmos.Model;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Text.Json;
 
 namespace EternalRegretAPI.Controllers
 {
     [Route("v1/[controller]")]
+    // [Produces("application/json")]
     public class StockController : ControllerBase
     {
         private readonly StockContext _stockContext;
@@ -18,20 +19,22 @@ namespace EternalRegretAPI.Controllers
         }
 
         [HttpGet("meta")]
-        public string Get()
+        public IActionResult Get()
         {
-
             try
             {
                 var list = _stockContext.Stocks
                     .Where(s => true)
-                    .Select(s => new Stock
+                    .Select(s => new StockMeta
                     {
                         StockName = s.StockName,
                         StockCode = s.StockCode,
                     }).ToList();
 
-                return (list == null) ? null : JsonConvert.SerializeObject(list);
+                if (list == null)
+                    return NotFound(null);
+
+                return Ok(list);
             }
             catch (Exception ex)
             {
@@ -41,7 +44,7 @@ namespace EternalRegretAPI.Controllers
         }
 
         [HttpGet("{code}")]
-        public string Get(string code)
+        public IActionResult Get(string code)
         {
 
             Stock stock = null;
@@ -56,9 +59,10 @@ namespace EternalRegretAPI.Controllers
                 // Some logging here?
                 return null;
             }
+            if (stock == null)
+                return NotFound(stock);
 
-
-            return (stock == null) ? null : JsonConvert.SerializeObject(stock);
+            return Ok(stock);
         }
     }
 }

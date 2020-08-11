@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -57,6 +58,12 @@ namespace EternalRegret.Crawler
                 reader.Dispose();
                 dataStream.Dispose();
                 res.Dispose();
+
+                sRes = Encoding.UTF8.GetString(
+                    Encoding.Convert(
+                        Encoding.GetEncoding(949),
+                        Encoding.UTF8,
+                        Encoding.GetEncoding(949).GetBytes(sRes)));
             }
             catch (Exception e)
             {

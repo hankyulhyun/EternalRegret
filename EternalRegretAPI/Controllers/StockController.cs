@@ -1,9 +1,9 @@
-﻿using EternalRegret.Cosmos.Context;
+﻿using EternalRegret.Common.Model;
+using EternalRegret.Cosmos.Context;
 using EternalRegret.Cosmos.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using System.Text.Json;
 
 namespace EternalRegretAPI.Controllers
 {
@@ -47,7 +47,7 @@ namespace EternalRegretAPI.Controllers
         public IActionResult Get(string code)
         {
 
-            Stock stock = null;
+            StockCosmos stock = null;
             try
             {
                 stock = _stockContext.Stocks

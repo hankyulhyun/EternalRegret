@@ -1,5 +1,6 @@
 @page "/fetchdata"
 @using System.Net.Http
+@using EternalRegret.Common.Model
 @inject HttpClient Http
 
 <h1>Weather forecast</h1>
@@ -32,12 +33,6 @@ else
 }
 
 @code {
-
-    public class StockMeta
-    {
-        public string StockName { get; set; }
-        public string StockCode { get; set; }
-    }
 
     private StockMeta[] stocks;
 

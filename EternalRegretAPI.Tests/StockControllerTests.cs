@@ -1,11 +1,10 @@
 ﻿using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.TestUtilities;
+using EternalRegret.Common.Model;
+using Newtonsoft.Json;
 using System.IO;
 using System.Threading.Tasks;
 using Xunit;
-using System.Text.Json;
-using Newtonsoft.Json;
-using EternalRegret.Cosmos.Model;
 
 namespace EternalRegretAPI.Tests
 {
@@ -21,6 +20,8 @@ namespace EternalRegretAPI.Tests
             var request = JsonConvert.DeserializeObject<APIGatewayProxyRequest>(requestStr);
             var context = new TestLambdaContext();
             var response = await lambdaFunction.FunctionHandlerAsync(request, context);
+
+            var stock = System.Text.Json.JsonSerializer.Deserialize<Stock>(response.Body);
 
             Assert.Equal(200, response.StatusCode);
         }

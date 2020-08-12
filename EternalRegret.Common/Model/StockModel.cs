@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace EternalRegret.Cosmos.Model
+namespace EternalRegret.Common.Model
 {
     public class StockMeta
     {
@@ -11,15 +10,8 @@ namespace EternalRegret.Cosmos.Model
         public string StockCode { get; set; }
     }
 
-    public class Stock
+    public class Stock : StockMeta
     {
-        [Key]
-        public Guid Id { get; set; }
-
-        public string StockName { get; set; }
-
-        public string StockCode { get; set; }
-
         public List<Price> Prices { get; set; }
 
         public Stock()
@@ -27,7 +19,6 @@ namespace EternalRegret.Cosmos.Model
             Prices = new List<Price>();
         }
     }
-
 
     public class Price
     {

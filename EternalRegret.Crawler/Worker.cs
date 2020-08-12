@@ -1,3 +1,4 @@
+using EternalRegret.Common.Model;
 using EternalRegret.Cosmos.Context;
 using EternalRegret.Cosmos.Model;
 using Microsoft.Extensions.Hosting;
@@ -7,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -89,7 +89,7 @@ namespace EternalRegret.Crawler
 
             _logger.LogInformation($"Insert: {name} [{code}]");
 
-            var stock = new Stock()
+            var stock = new StockCosmos()
             {
                 StockName = name,
                 StockCode = code,

@@ -6,7 +6,7 @@ namespace EternalRegret.Cosmos.Context
 {
     public class StockContext : DbContext
     {
-        public DbSet<Stock> Stocks { get; set; }
+        public DbSet<StockCosmos> Stocks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             var accountEndPoint = Environment.GetEnvironmentVariable("AccountEndPoint");
@@ -17,7 +17,7 @@ namespace EternalRegret.Cosmos.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Stock>().OwnsMany(s => s.Prices);
+            modelBuilder.Entity<StockCosmos>().OwnsMany(s => s.Prices);
         }
     }
 }

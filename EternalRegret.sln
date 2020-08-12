@@ -11,9 +11,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EternalRegret.Cosmos", "Ete
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EternalRegret.Crawler", "EternalRegret.Crawler\EternalRegret.Crawler.csproj", "{738362B7-4A32-4D62-9FB3-60A70C66B53D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EternalRegret", "EternalRegret\EternalRegret.csproj", "{F5685D14-99CC-434D-91B6-48396F21B2B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EternalRegret", "EternalRegret\EternalRegret.csproj", "{F5685D14-99CC-434D-91B6-48396F21B2B5}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "EternalRegret.Common", "EternalRegret.Common\EternalRegret.Common.shproj", "{CA329833-D4BC-41C5-9539-567431948C1E}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		EternalRegret.Common\EternalRegret.Common.projitems*{b1e46706-b8f6-40a5-9834-73f9845380b3}*SharedItemsImports = 5
+		EternalRegret.Common\EternalRegret.Common.projitems*{ca329833-d4bc-41c5-9539-567431948c1e}*SharedItemsImports = 13
+		EternalRegret.Common\EternalRegret.Common.projitems*{f5685d14-99cc-434d-91b6-48396f21b2b5}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

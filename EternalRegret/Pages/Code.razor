@@ -1,9 +1,77 @@
 ﻿@page "/code"
 
+@using EternalRegret.Common.Model
+@using EternalRegret.State
+@inject NavigationManager NavigationManager
+@inject HttpClient Http 
+@inject ICurrent Current;
+
+
 <h1>종목</h1>
 
+<form>
+    <div class="form-group">
+        <label>종목을 검색하세요</label>
+        <input @bind="CurrentFilter" @bind:event="oninput" class="form-control" placeholder="" />
+    </div>
+    <div class="list-group">
+        @foreach (var stock in stockFilteredMetaData)
+        {
+            <a @onclick="(() => NavitagionToSelectMethod(stock))" href="javascript:void(0);"
+               class="list-group-item list-group-item-action">@($"{stock.StockName} ({stock.StockCode})")</a>
+        }
+    </div>
+</form>
 
 
-<NavLink class="nav-link" href="period">
-    <button class="btn-primary" aria-hidden="true">시간 선택</button>
-</NavLink>
+<button class="btn-primary" aria-hidden="true">시간 선택</button>
+
+@code {
+
+    private string currentFilter;
+    private string CurrentFilter
+    {
+        get { return currentFilter; }
+        set
+        {
+            currentFilter = value;
+            GetStockFilteringList(value);
+        }
+    }
+
+    static private StockMeta[] stockMetaData;
+    private List<StockMeta> stockFilteredMetaData = new List<StockMeta>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (stockMetaData == null)
+        {
+            stockMetaData = await Http.GetFromJsonAsync<StockMeta[]>("stock/meta");
+            await GetStockFilteringList(CurrentFilter);
+        }
+    }
+
+    private async Task GetStockFilteringList(string filterString)
+    {
+        if (stockMetaData == null || filterString == null)
+            return;
+
+
+        if (filterString.Trim().Length >= 1)
+        {
+            stockFilteredMetaData = stockMetaData
+                .Where(s => s.StockName.ToUpper().Contains(filterString.ToUpper())).ToList();
+        }
+        else
+        {
+            stockFilteredMetaData = new List<StockMeta>();
+        }
+    }
+
+    private void NavitagionToSelectMethod(StockMeta select)
+    {
+        Current.SetSelectStock(select);
+        NavigationManager.NavigateTo("period");
+    }
+}
+

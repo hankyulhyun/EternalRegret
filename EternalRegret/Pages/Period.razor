@@ -1,9 +1,71 @@
 ﻿@page "/period"
 
+@using EternalRegret.Common.Model
+@using EternalRegret.State
+
+@inject HttpClient Http
+@inject ICurrent Current;
+
 <h1>시간</h1>
 
+<div>
+    <RadzenDatePicker @bind-Value="BuyDate" DateFormat="d" />
+    <RadzenDatePicker @bind-Value="SellDate" DateFormat="d" />
+</div>
 
+@if (stockInfo != null)
+{
+    <div>
+        <label>Stock Name : @stockInfo.StockName</label>
+    </div>
+    <div>
+        <label>Stock Code : @stockInfo.StockCode</label>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Volumn</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var price in stockInfo.Prices)
+            {
+                <tr>
+                    <td>@price.PriceDate</td>
+                    <td>@price.StartPrice</td>
+                    <td>@price.EndPrice</td>
+                    <td>@price.HighPrice</td>
+                    <td>@price.LowPrice</td>
+                    <td>@price.Volumn</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 <NavLink class="nav-link" href="result">
-    <button class="btn-primary" aria-hidden="true">결과 보기</button>
+    <button class="btn-primary" aria-hidden="true" disabled=@Fetching>결과 보기</button>
 </NavLink>
+
+@code {
+
+    DateTime? BuyDate = DateTime.Now;
+    DateTime? SellDate = DateTime.Now;
+
+    bool Fetching = true;
+
+    private Stock stockInfo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var currentSelect = Current.GetSelectStock();
+        stockInfo = await Http.GetFromJsonAsync<Stock>($"stock/{currentSelect.StockCode}");
+        Current.SetStockPrices(stockInfo);
+        Fetching = false;
+    }
+}
